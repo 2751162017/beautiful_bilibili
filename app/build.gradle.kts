@@ -34,8 +34,8 @@ android {
 
 dependencies {
     compileOnly(fileTree(mapOf("dir" to "libs", "include" to listOf("*"))))
-    implementation ("com.google.code.gson:gson:2.8.6")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.1")// 替换成最新版本
+//    implementation ("com.google.code.gson:gson:2.8.9")
+//    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.4.1")// 替换成最新版本
 
     implementation ("com.squareup.retrofit2:retrofit:2.9.0") // 确认版本号是你需要的版本
     implementation("androidx.core:core-ktx:1.13.1")

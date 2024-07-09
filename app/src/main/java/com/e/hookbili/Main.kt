@@ -19,8 +19,8 @@ class Main : IXposedHookLoadPackage {
                 XposedBridge.hookAllMethods(biliApiDataCallbackClass, "onResponse", object : XC_MethodHook() {
                     override fun beforeHookedMethod(param: MethodHookParam?) {
                         super.beforeHookedMethod(param)
-                        var url:String? = null
-                        var data:Any? = null
+                        var url:String? = null // 当前请求url
+                        var data:Any? = null // 网络请求返回值
 
                         param?.let { it ->
                             val response = it.args[1]
@@ -31,7 +31,7 @@ class Main : IXposedHookLoadPackage {
                             (response.javaClass.getMethod("isSuccessful").invoke(response) as Boolean).let {if (!it)return }
                             val dataField = responseBody.javaClass.getDeclaredField("data")
                             dataField.isAccessible = true
-                            data = dataField.get(responseBody) //网络请求返回值
+                            data = dataField.get(responseBody)
                         } //初始化
 
                         when(URL(url).path){
@@ -57,7 +57,7 @@ class Main : IXposedHookLoadPackage {
                                 val header = XposedHelpers.getObjectField(data,"header")
 //                                val grab = XposedHelpers.getObjectField(header,"garb") // 皮肤
 //                                val num = XposedHelpers.getObjectField(grab,"fansNumber")
-
+//
 //                                XposedHelpers.setObjectField(header,"imageUrl","https://i0.hdslb.com/bfs/garb/item/bfd6718a07968c58670253c1068bc0ef21a40014.jpg") // 主页头图
 //                                XposedHelpers.setObjectField(header,"hasGarb",true) // 标记为已有皮肤
 //                                XposedHelpers.setObjectField(header,"showReset",true) // 重置显示？没搞懂
@@ -75,7 +75,7 @@ class Main : IXposedHookLoadPackage {
 
 
                                 SetGarb.setGarb(header, GarbEnum.Test1.setFansNumber(114514),lpparam)
-//
+
 //                                XposedHelpers.setObjectField(header,"garb",constructor) // 应用修改
 
 //                                testField(data, arrayOf("SpaceActivity","SourceContent","BiliSpaceHeader"))
@@ -99,8 +99,4 @@ class Main : IXposedHookLoadPackage {
     private fun testField(obj: Any?,list:Array<String>): Unit = list.forEach {i:String ->XposedBridge.log("GET VALUE FOR $i: ${XposedHelpers.getObjectField(obj,i)}");log("GET VALUE FOR $i: ${XposedHelpers.getObjectField(obj,i)}") }
     private fun log(msg:String):Int = Log.d("BILIHOOK", msg)
     private fun log():Int = Log.d("BILIHOOK", "Null")
-
-
-
-
 }

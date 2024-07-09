@@ -7,7 +7,7 @@ class SetGarb {
 
     companion object {
         private fun setField(obj: Any?, list:Array<Pair<String, Any?>>)=list.forEach { XposedHelpers.setObjectField(obj,it.first,it.second) }
-        public fun setGarb(garbObj:Any, garbData: GarbEnum, lpp: XC_LoadPackage.LoadPackageParam){
+        fun setGarb(garbObj:Any, garbData: GarbEnum, lpp: XC_LoadPackage.LoadPackageParam){
             val header = XposedHelpers.findClass("com.bilibili.app.authorspace.api.BiliSpaceHeader\$Garb", lpp.classLoader).getDeclaredConstructor().newInstance()
             setField(header, arrayOf(
                 Pair("fansNumber",garbData.fansNumber),
